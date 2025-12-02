@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import cl.duoc.pasteleria.pasteleria_backend.model.Producto;
 import cl.duoc.pasteleria.pasteleria_backend.service.ProductoService;
 
+
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "http://54.226.254.75"
+})
 @RestController
 @RequestMapping("/api/productos")
-// Para desarrollo: aceptar peticiones desde cualquier origen (front local, AWS, etc.)
-@CrossOrigin(origins = "*")
 public class ProductoController {
 
     private final ProductoService service;
