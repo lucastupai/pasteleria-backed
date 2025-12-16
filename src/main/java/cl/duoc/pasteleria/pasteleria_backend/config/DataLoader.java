@@ -101,19 +101,19 @@ public class DataLoader implements CommandLineRunner {
             System.out.println("=== DataLoader: creando usuarios de prueba ===");
 
             Usuario admin = new Usuario();
-            admin.setUsername("admin");
+            admin.setUsername("admin@pasteleria.cl");
             admin.setPassword(passwordEncoder.encode("admin123"));
             admin.setRol("ADMIN");
 
             Usuario cliente = new Usuario();
-            cliente.setUsername("cliente");
+            cliente.setUsername("cliente@pasteleria.cl");
             cliente.setPassword(passwordEncoder.encode("cliente123"));
             cliente.setRol("CLIENTE");
 
             usuarioRepository.save(admin);
             usuarioRepository.save(cliente);
 
-            System.out.println("=== Usuarios de prueba creados: admin/admin123 (ADMIN), cliente/cliente123 (CLIENTE) ===");
+            System.out.println(System.out.println("=== Usuarios de prueba creados: admin@pasteleria.cl/admin123 (ADMIN), cliente@pasteleria.cl/cliente123 (CLIENTE) ==="););
         }
     }
 }
