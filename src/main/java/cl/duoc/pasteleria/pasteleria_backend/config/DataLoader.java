@@ -31,10 +31,13 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private void cargarProductos() {
-    long count = productoRepository.count();
-    System.out.println("=== DataLoader: productos en BD = " + count + " ===");
+        long count = productoRepository.count();
+        System.out.println("=== DataLoader: productos en BD = " + count + " ===");
 
-    if (count == 0) {
+        // ✅ IMPORTANTE: siempre reiniciamos para que se vean TUS productos
+        System.out.println("=== DataLoader: borrando productos anteriores ===");
+        productoRepository.deleteAll();
+
         System.out.println("=== DataLoader: insertando productos Pastelería Mil Sabores ===");
 
         productoRepository.save(new Producto(
@@ -168,8 +171,6 @@ public class DataLoader implements CommandLineRunner {
         System.out.println("=== DataLoader: productos insertados, total = "
                 + productoRepository.count() + " ===");
     }
-}
-
 
     private void cargarUsuarios() {
         long countUsuarios = usuarioRepository.count();
