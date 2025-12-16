@@ -28,150 +28,157 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) {
         cargarProductos();
         cargarUsuarios();
-    }
+    }private void cargarProductos() {
+    long count = productoRepository.count();
+    System.out.println("=== DataLoader: productos en BD = " + count + " ===");
 
-    private void cargarProductos() {
-        long count = productoRepository.count();
-        System.out.println("=== DataLoader: productos en BD = " + count + " ===");
-
-        // ✅ IMPORTANTE: siempre reiniciamos para que se vean TUS productos
-        System.out.println("=== DataLoader: borrando productos anteriores ===");
-        productoRepository.deleteAll();
-
+    if (count == 0) {
         System.out.println("=== DataLoader: insertando productos Pastelería Mil Sabores ===");
 
-        productoRepository.save(new Producto(
-            "TC001 - Torta Cuadrada de Chocolate",
-            "Torta cuadrada rellena y cubierta con chocolate",
-            45000,
-            "Tortas Cuadradas",
-            "https://images.unsplash.com/photo-1601972599722-c6b6a6cde7a5"
-        ));
+        // helper local
+        java.util.function.Function<Object[], Producto> crear = (arr) -> {
+            Producto p = new Producto();
+            p.setNombre((String) arr[0]);
+            p.setCategoria((String) arr[1]);
+            p.setPrecio((Integer) arr[2]);
+            p.setDescripcion((String) arr[3]);
+            p.setImagen((String) arr[4]);
+            return p;
+        };
 
-        productoRepository.save(new Producto(
-            "TC002 - Torta Cuadrada de Frutas",
-            "Torta cuadrada con frutas frescas de estación",
-            50000,
-            "Tortas Cuadradas",
-            "https://images.unsplash.com/photo-1542826438-8b64f8c4b4f6"
-        ));
+        productoRepository.save(crear.apply(new Object[]{
+                "TC001 - Torta Cuadrada de Chocolate",
+                "Tortas Cuadradas",
+                45000,
+                "Torta cuadrada de chocolate.",
+                "https://images.unsplash.com/photo-1601972599722-c6b6a6cde7a5?auto=format&fit=crop&w=800&q=80"
+        }));
 
-        productoRepository.save(new Producto(
-            "TT001 - Torta Circular de Vainilla",
-            "Torta circular sabor vainilla con crema",
-            40000,
-            "Tortas Circulares",
-            "https://images.unsplash.com/photo-1605478528913-1f2dcd89c1cc"
-        ));
+        productoRepository.save(crear.apply(new Object[]{
+                "TC002 - Torta Cuadrada de Frutas",
+                "Tortas Cuadradas",
+                50000,
+                "Torta cuadrada con frutas.",
+                "https://images.unsplash.com/photo-1542826438-8b64f8c4b4f6?auto=format&fit=crop&w=800&q=80"
+        }));
 
-        productoRepository.save(new Producto(
-            "TT002 - Torta Circular de Manjar",
-            "Torta circular rellena con manjar tradicional",
-            42000,
-            "Tortas Circulares",
-            "https://images.unsplash.com/photo-1599785209798-0b40a45d5e21"
-        ));
+        productoRepository.save(crear.apply(new Object[]{
+                "TT001 - Torta Circular de Vainilla",
+                "Tortas Circulares",
+                40000,
+                "Torta circular de vainilla.",
+                "https://images.unsplash.com/photo-1605478528913-1f2dcd89c1cc?auto=format&fit=crop&w=800&q=80"
+        }));
 
-        productoRepository.save(new Producto(
-            "PI001 - Mousse de Chocolate",
-            "Postre individual de mousse de chocolate",
-            5000,
-            "Postres Individuales",
-            "https://images.unsplash.com/photo-1606313564200-e75d5e30476c"
-        ));
+        productoRepository.save(crear.apply(new Object[]{
+                "TT002 - Torta Circular de Manjar",
+                "Tortas Circulares",
+                42000,
+                "Torta circular de manjar.",
+                "https://images.unsplash.com/photo-1599785209798-0b40a45d5e21?auto=format&fit=crop&w=800&q=80"
+        }));
 
-        productoRepository.save(new Producto(
-            "PI002 - Tiramisú Clásico",
-            "Postre individual tiramisú tradicional",
-            5500,
-            "Postres Individuales",
-            "https://images.unsplash.com/photo-1612197527772-8c4e7c2d9f8c"
-        ));
+        productoRepository.save(crear.apply(new Object[]{
+                "PI001 - Mousse de Chocolate",
+                "Postres Individuales",
+                5000,
+                "Mousse de chocolate.",
+                "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80"
+        }));
 
-        productoRepository.save(new Producto(
-            "PSA001 - Torta Sin Azúcar de Naranja",
-            "Torta especial sin azúcar sabor naranja",
-            48000,
-            "Productos Sin Azúcar",
-            "https://images.unsplash.com/photo-1608219959301-8d98b6a4e3f5"
-        ));
+        productoRepository.save(crear.apply(new Object[]{
+                "PI002 - Tiramisú Clásico",
+                "Postres Individuales",
+                5500,
+                "Tiramisú clásico.",
+                "https://images.unsplash.com/photo-1519676867240-f03562e64548?auto=format&fit=crop&w=800&q=80"
+        }));
 
-        productoRepository.save(new Producto(
-            "PSA002 - Cheesecake Sin Azúcar",
-            "Cheesecake sin azúcar añadida",
-            47000,
-            "Productos Sin Azúcar",
-            "https://images.unsplash.com/photo-1606890737304-57a1ca8a5e22"
-        ));
+        productoRepository.save(crear.apply(new Object[]{
+                "PSA001 - Torta Sin Azúcar de Naranja",
+                "Productos Sin Azúcar",
+                48000,
+                "Torta sin azúcar sabor naranja.",
+                "https://images.unsplash.com/photo-1541783245831-57d6fb0926d3?auto=format&fit=crop&w=800&q=80"
+        }));
 
-        productoRepository.save(new Producto(
-            "PT001 - Empanada de Manzana",
-            "Empanada dulce rellena de manzana",
-            3000,
-            "Pastelería Tradicional",
-            "https://images.unsplash.com/photo-1608198093002-ad4e005484ec"
-        ));
+        productoRepository.save(crear.apply(new Object[]{
+                "PSA002 - Cheesecake Sin Azúcar",
+                "Productos Sin Azúcar",
+                47000,
+                "Cheesecake sin azúcar.",
+                "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=800&q=80"
+        }));
 
-        productoRepository.save(new Producto(
-            "PT002 - Tarta de Santiago",
-            "Tarta tradicional de almendras",
-            6000,
-            "Pastelería Tradicional",
-            "https://images.unsplash.com/photo-1605475128202-7d92c2e5e1c3"
-        ));
+        productoRepository.save(crear.apply(new Object[]{
+                "PT001 - Empanada de Manzana",
+                "Pastelería Tradicional",
+                3000,
+                "Empanada dulce de manzana.",
+                "https://images.unsplash.com/photo-1546549039-ef7f6a0f6c6d?auto=format&fit=crop&w=800&q=80"
+        }));
 
-        productoRepository.save(new Producto(
-            "PG001 - Brownie Sin Gluten",
-            "Brownie especial sin gluten",
-            4000,
-            "Productos Sin Gluten",
-            "https://images.unsplash.com/photo-1599785209798-0b40a45d5e21"
-        ));
+        productoRepository.save(crear.apply(new Object[]{
+                "PT002 - Tarta de Santiago",
+                "Pastelería Tradicional",
+                6000,
+                "Tarta de almendras.",
+                "https://images.unsplash.com/photo-1541783245831-57d6fb0926d3?auto=format&fit=crop&w=800&q=80"
+        }));
 
-        productoRepository.save(new Producto(
-            "PG002 - Pan Sin Gluten",
-            "Pan artesanal sin gluten",
-            3500,
-            "Productos Sin Gluten",
-            "https://images.unsplash.com/photo-1546549039-ef7f6a0f6c6d"
-        ));
+        productoRepository.save(crear.apply(new Object[]{
+                "PG001 - Brownie Sin Gluten",
+                "Productos Sin Gluten",
+                4000,
+                "Brownie sin gluten.",
+                "https://images.unsplash.com/photo-1601972599722-c6b6a6cde7a5?auto=format&fit=crop&w=800&q=80"
+        }));
 
-        productoRepository.save(new Producto(
-            "PV001 - Torta Vegana de Chocolate",
-            "Torta vegana sin ingredientes de origen animal",
-            50000,
-            "Productos Veganos",
-            "https://images.unsplash.com/photo-1601972599722-c6b6a6cde7a5"
-        ));
+        productoRepository.save(crear.apply(new Object[]{
+                "PG002 - Pan Sin Gluten",
+                "Productos Sin Gluten",
+                3500,
+                "Pan sin gluten.",
+                "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=800&q=80"
+        }));
 
-        productoRepository.save(new Producto(
-            "PV002 - Galletas Veganas de Avena",
-            "Galletas veganas artesanales de avena",
-            4500,
-            "Productos Veganos",
-            "https://images.unsplash.com/photo-1599785209798-0b40a45d5e21"
-        ));
+        productoRepository.save(crear.apply(new Object[]{
+                "PV001 - Torta Vegana de Chocolate",
+                "Productos Veganos",
+                50000,
+                "Torta vegana de chocolate.",
+                "https://images.unsplash.com/photo-1601972599722-c6b6a6cde7a5?auto=format&fit=crop&w=800&q=80"
+        }));
 
-        productoRepository.save(new Producto(
-            "TE001 - Torta Especial de Cumpleaños",
-            "Torta especial personalizada para cumpleaños",
-            55000,
-            "Tortas Especiales",
-            "https://images.unsplash.com/photo-1606313564200-e75d5e30476c"
-        ));
+        productoRepository.save(crear.apply(new Object[]{
+                "PV002 - Galletas Veganas de Avena",
+                "Productos Veganos",
+                4500,
+                "Galletas veganas de avena.",
+                "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=800&q=80"
+        }));
 
-        productoRepository.save(new Producto(
-            "TE002 - Torta Especial de Boda",
-            "Torta especial de boda personalizada",
-            60000,
-            "Tortas Especiales",
-            "https://images.unsplash.com/photo-1542826438-8b64f8c4b4f6"
-        ));
+        productoRepository.save(crear.apply(new Object[]{
+                "TE001 - Torta Especial de Cumpleaños",
+                "Tortas Especiales",
+                55000,
+                "Torta especial de cumpleaños.",
+                "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80"
+        }));
+
+        productoRepository.save(crear.apply(new Object[]{
+                "TE002 - Torta Especial de Boda",
+                "Tortas Especiales",
+                60000,
+                "Torta especial de boda.",
+                "https://images.unsplash.com/photo-1542826438-8b64f8c4b4f6?auto=format&fit=crop&w=800&q=80"
+        }));
 
         System.out.println("=== DataLoader: productos insertados, total = "
                 + productoRepository.count() + " ===");
     }
-
+}
+   
     private void cargarUsuarios() {
         long countUsuarios = usuarioRepository.count();
         System.out.println("=== DataLoader: usuarios en BD = " + countUsuarios + " ===");
