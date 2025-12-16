@@ -28,23 +28,22 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session ->
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
             .authorizeHttpRequests(auth -> auth
                 // login y swagger públicos
                 .requestMatchers(
-                    "/api/auth/**",
-                    "/v3/api-docs/**",
-                    "/swagger-ui/**",
-                    "/swagger-ui.html"
+                        "/api/auth/**",
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html"
                 ).permitAll()
-
-                // catálogo público (IMPORTANTE: /api/productos y /api/productos/**)
-                .requestMatchers(HttpMethod.GET, "/api/productos", "/api/productos/**").permitAll()
-
+                // GET de productos público (cualquier usuario puede ver catálogo)
+                .requestMatchers(HttpMethod.GET, "/api/productos/**").permitAll()
                 // cualquier otra cosa requiere rol ADMIN
                 .anyRequest().hasRole("ADMIN")
             )
+            // agregamos el filtro JWT antes del filtro por defecto de login
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
